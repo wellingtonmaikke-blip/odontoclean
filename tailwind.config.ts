@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-// Paleta de cores da marca OdontoClean.
+// Paleta de cores da marca Método Fluxo.
 // Edite aqui para alterar a identidade visual em todo o sistema.
 const config: Config = {
   content: [

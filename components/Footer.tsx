@@ -8,7 +8,7 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-2">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-darkBlue font-display text-lg font-bold text-white">
-              O
+              M
             </span>
             <span className="font-display text-xl font-bold text-brand-gray-900">{marca.nome}</span>
           </div>
@@ -18,7 +18,7 @@ export default function Footer() {
         <div>
           <h4 className="font-display font-semibold text-brand-gray-900">Navegação</h4>
           <ul className="mt-4 space-y-2 text-sm text-brand-gray-600">
-            <li><Link href="/servicos" className="hover:text-brand-darkBlue">Serviços e planos</Link></li>
+            <li><Link href="/servicos" className="hover:text-brand-darkBlue">Serviços</Link></li>
             <li><Link href="/diferenciais" className="hover:text-brand-darkBlue">Diferenciais</Link></li>
             <li><Link href="/missao-visao" className="hover:text-brand-darkBlue">Missão e visão</Link></li>
             <li><Link href="/sobre" className="hover:text-brand-darkBlue">Sobre nós</Link></li>

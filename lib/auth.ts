@@ -10,15 +10,15 @@
 import { Sessao } from "./types";
 import { fakeHash, getClinicaPorEmail } from "./db";
 
-const SESSION_KEY = "odontoclean_session";
+const SESSION_KEY = "metodofluxo_session";
 const SESSION_DURATION_MS = 1000 * 60 * 60 * 8; // 8 horas
 
-// Credenciais do painel administrativo interno (equipe OdontoClean).
+// Credenciais do painel administrativo interno (equipe Método Fluxo).
 // Em produção isso viria de um banco protegido, nunca do código-fonte.
 export const ADMIN_CREDENTIALS = {
-  email: "admin@odontoclean.com.br",
+  email: "admin@metodofluxo.com.br",
   senha: "admin123",
-  nome: "Administrador OdontoClean",
+  nome: "Administrador Método Fluxo",
 };
 
 function base64urlEncode(obj: unknown) {
@@ -36,7 +36,7 @@ function base64urlDecode<T>(str: string): T | null {
 function criarToken(payload: Sessao): string {
   const header = base64urlEncode({ alg: "fake-HS256", typ: "JWT" });
   const body = base64urlEncode(payload);
-  const signature = fakeHash(header + body + "odontoclean_secret");
+  const signature = fakeHash(header + body + "metodofluxo_secret");
   return `${header}.${body}.${signature}`;
 }
 
@@ -44,7 +44,7 @@ function lerToken(token: string): Sessao | null {
   const partes = token.split(".");
   if (partes.length !== 3) return null;
   const [header, body, signature] = partes;
-  const esperado = fakeHash(header + body + "odontoclean_secret");
+  const esperado = fakeHash(header + body + "metodofluxo_secret");
   if (esperado !== signature) return null;
   return base64urlDecode<Sessao>(body);
 }

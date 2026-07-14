@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getSessao } from "@/lib/auth";
 import { getAgendamentosPorClinica, getClinicaPorId } from "@/lib/db";
 import { Agendamento, Clinica } from "@/lib/types";
-import { planos } from "@/lib/content";
+import { servicos } from "@/lib/content";
 
 const statusEstilo: Record<string, string> = {
   pendente: "bg-yellow-100 text-yellow-700",
@@ -30,7 +30,7 @@ export default function PainelDashboard() {
     .filter((a) => a.status !== "cancelado" && a.data >= new Date().toISOString().slice(0, 10))
     .slice(0, 3);
 
-  const planoAtual = planos.find((p) => p.id === clinica?.planoAtual);
+  const servicoAtual = servicos.find((s) => s.id === clinica?.servicoAtual);
 
   return (
     <div>
@@ -43,9 +43,9 @@ export default function PainelDashboard() {
 
       <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
         <div className="card">
-          <p className="text-sm text-brand-gray-600">Plano atual</p>
+          <p className="text-sm text-brand-gray-600">Serviço atual</p>
           <p className="mt-1 font-display text-xl font-bold text-brand-darkBlue">
-            {planoAtual ? planoAtual.nome : "Nenhum plano ativo"}
+            {servicoAtual ? servicoAtual.nome : "Nenhum serviço contratado"}
           </p>
         </div>
         <div className="card">
@@ -81,7 +81,7 @@ export default function PainelDashboard() {
               <div key={a.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-brand-gray-100 p-4">
                 <div>
                   <p className="font-semibold text-brand-gray-900">
-                    Plano {planos.find((p) => p.id === a.plano)?.nome}
+                    {servicos.find((s) => s.id === a.servico)?.nome}
                   </p>
                   <p className="text-sm text-brand-gray-600">
                     {new Date(a.data + "T00:00:00").toLocaleDateString("pt-BR")} às {a.horario}

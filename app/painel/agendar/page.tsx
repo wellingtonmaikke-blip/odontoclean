@@ -4,25 +4,17 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSessao } from "@/lib/auth";
 import { criarAgendamento } from "@/lib/db";
-import { planos } from "@/lib/content";
-import { Frequencia, PlanoId } from "@/lib/types";
+import { servicos } from "@/lib/content";
+import { ServicoId } from "@/lib/types";
 import SimpleCalendar from "@/components/SimpleCalendar";
-
-const frequencias: { id: Frequencia; label: string; descricao: string }[] = [
-  { id: "unica", label: "Única", descricao: "Um único atendimento" },
-  { id: "semanal", label: "Semanal", descricao: "Repete toda semana" },
-  { id: "quinzenal", label: "Quinzenal", descricao: "A cada 15 dias" },
-  { id: "mensal", label: "Mensal", descricao: "Uma vez por mês" },
-];
 
 const horariosDisponiveis = ["08:00", "09:30", "11:00", "13:30", "15:00", "16:30"];
 
 export default function AgendarPage() {
   const router = useRouter();
-  const [plano, setPlano] = useState<PlanoId>("bronze");
+  const [servicoId, setServicoId] = useState<ServicoId>("diagnostico");
   const [data, setData] = useState<string | null>(null);
   const [horario, setHorario] = useState<string>("");
-  const [frequencia, setFrequencia] = useState<Frequencia>("unica");
   const [observacoes, setObservacoes] = useState("");
   const [enviado, setEnviado] = useState(false);
   const [erro, setErro] = useState("");
@@ -30,6 +22,8 @@ export default function AgendarPage() {
   useEffect(() => {
     if (!getSessao()) router.replace("/login");
   }, [router]);
+
+  const servicoSelecionado = servicos.find((s) => s.id === servicoId)!;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -43,10 +37,10 @@ export default function AgendarPage() {
 
     criarAgendamento({
       clinicaId: sessao.id,
-      plano,
+      servico: servicoId,
       data,
       horario,
-      frequencia,
+      frequencia: servicoSelecionado.tipo === "recorrente" ? "mensal" : "unica",
       observacoes,
     });
     setEnviado(true);
@@ -83,54 +77,40 @@ export default function AgendarPage() {
   return (
     <div>
       <h1 className="font-display text-2xl font-bold text-brand-gray-900">Agendar serviço</h1>
-      <p className="mt-1 text-brand-gray-600">Escolha o plano, a data, o horário e a frequência desejada.</p>
+      <p className="mt-1 text-brand-gray-600">Escolha o serviço, a data e o horário desejados.</p>
 
       <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="space-y-6">
           <div className="card">
-            <label className="label-field">1. Escolha o plano</label>
-            <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              {planos.map((p) => (
+            <label className="label-field">1. Escolha o serviço</label>
+            <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {servicos.map((s) => (
                 <button
                   type="button"
-                  key={p.id}
-                  onClick={() => setPlano(p.id)}
+                  key={s.id}
+                  onClick={() => setServicoId(s.id)}
                   className={`rounded-xl border-2 p-3 text-left transition ${
-                    plano === p.id
+                    servicoId === s.id
                       ? "border-brand-darkBlue bg-brand-lightBlue/50"
                       : "border-brand-gray-200 hover:border-brand-darkBlue/40"
                   }`}
                 >
-                  <p className="font-display text-sm font-bold text-brand-gray-900">{p.nome}</p>
-                  <p className="mt-1 text-xs text-brand-gray-600">R$ {p.preco.toLocaleString("pt-BR")}{p.precoLabel}</p>
+                  <p className="font-display text-sm font-bold text-brand-gray-900">{s.nome}</p>
+                  <p className="mt-1 text-xs text-brand-gray-600">
+                    R$ {s.precoMin.toLocaleString("pt-BR")}–{s.precoMax.toLocaleString("pt-BR")}{s.precoLabel}
+                  </p>
                 </button>
               ))}
             </div>
+            <p className="mt-3 text-xs text-brand-gray-500">
+              {servicoSelecionado.tipo === "recorrente"
+                ? "Este serviço é recorrente: uma visita por mês, a partir da data escolhida."
+                : "Este serviço é um atendimento único."}
+            </p>
           </div>
 
           <div className="card">
-            <label className="label-field">2. Frequência</label>
-            <div className="mt-2 grid grid-cols-2 gap-3">
-              {frequencias.map((f) => (
-                <button
-                  type="button"
-                  key={f.id}
-                  onClick={() => setFrequencia(f.id)}
-                  className={`rounded-xl border-2 p-3 text-left transition ${
-                    frequencia === f.id
-                      ? "border-brand-mint bg-brand-mint/10"
-                      : "border-brand-gray-200 hover:border-brand-mint/40"
-                  }`}
-                >
-                  <p className="text-sm font-semibold text-brand-gray-900">{f.label}</p>
-                  <p className="text-xs text-brand-gray-600">{f.descricao}</p>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="card">
-            <label className="label-field">3. Horário</label>
+            <label className="label-field">2. Horário</label>
             <div className="mt-2 flex flex-wrap gap-2">
               {horariosDisponiveis.map((h) => (
                 <button
@@ -163,7 +143,7 @@ export default function AgendarPage() {
 
         <div className="space-y-6">
           <div>
-            <label className="label-field mb-2">4. Escolha a data</label>
+            <label className="label-field mb-2">3. Escolha a data</label>
             <SimpleCalendar value={data} onChange={setData} />
           </div>
 

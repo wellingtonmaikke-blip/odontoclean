@@ -82,7 +82,7 @@ export default function LoginPage() {
             </Link>
           </p>
           <p className="mt-2 text-center text-xs text-brand-gray-500">
-            É da equipe OdontoClean?{" "}
+            É da equipe Método Fluxo?{" "}
             <Link href="/admin/login" className="font-semibold text-brand-darkBlue hover:underline">
               Acesse o painel interno
             </Link>

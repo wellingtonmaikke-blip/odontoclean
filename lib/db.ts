@@ -10,9 +10,9 @@
 import { Agendamento, Clinica } from "./types";
 
 const KEYS = {
-  clinicas: "odontoclean_clinicas",
-  agendamentos: "odontoclean_agendamentos",
-  seeded: "odontoclean_seeded_v1",
+  clinicas: "metodofluxo_clinicas",
+  agendamentos: "metodofluxo_agendamentos",
+  seeded: "metodofluxo_seeded_v1",
 };
 
 function readLS<T>(key: string, fallback: T): T {
@@ -60,7 +60,7 @@ export function seedDatabase() {
     responsavel: "Dra. Marina Souza",
     email: "clinica@demo.com",
     senhaHash: fakeHash("demo123"),
-    planoAtual: "prata",
+    servicoAtual: "implantacao",
     criadoEm: new Date().toISOString(),
   };
 
@@ -68,7 +68,7 @@ export function seedDatabase() {
     {
       id: uid("agend"),
       clinicaId: clinicaDemo.id,
-      plano: "prata",
+      servico: "mentoria",
       data: new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10),
       horario: "08:00",
       frequencia: "mensal",
@@ -79,10 +79,10 @@ export function seedDatabase() {
     {
       id: uid("agend"),
       clinicaId: clinicaDemo.id,
-      plano: "prata",
+      servico: "implantacao",
       data: new Date(Date.now() - 20 * 86400000).toISOString().slice(0, 10),
       horario: "08:00",
-      frequencia: "mensal",
+      frequencia: "unica",
       status: "concluido",
       criadoEm: new Date().toISOString(),
     },
@@ -119,7 +119,7 @@ export function criarClinica(dados: Omit<Clinica, "id" | "criadoEm" | "senhaHash
     responsavel: dados.responsavel,
     email: dados.email,
     senhaHash: fakeHash(dados.senha),
-    planoAtual: dados.planoAtual ?? null,
+    servicoAtual: dados.servicoAtual ?? null,
     criadoEm: new Date().toISOString(),
   };
   writeLS(KEYS.clinicas, [...clinicas, nova]);
@@ -158,8 +158,8 @@ export function criarAgendamento(dados: Omit<Agendamento, "id" | "criadoEm" | "s
   };
   writeLS(KEYS.agendamentos, [...agendamentos, novo]);
 
-  // Atualiza o plano atual da clínica ao agendar
-  atualizarClinica(dados.clinicaId, { planoAtual: dados.plano });
+  // Atualiza o serviço atual da clínica ao agendar
+  atualizarClinica(dados.clinicaId, { servicoAtual: dados.servico });
 
   return novo;
 }
@@ -174,18 +174,23 @@ export function excluirAgendamento(id: string) {
 }
 
 // -----------------------------------------------------------------------------
-// PREÇOS DOS PLANOS (overrides editáveis pelo painel admin)
-// Os textos/planos "base" ficam em lib/content.ts. Aqui guardamos apenas
+// PREÇOS DOS SERVIÇOS (overrides editáveis pelo painel admin)
+// Os textos/serviços "base" ficam em lib/content.ts. Aqui guardamos apenas
 // ajustes de preço feitos pelo admin em tempo de execução (demonstração).
 // Para editar permanentemente nome, descrição e benefícios, edite lib/content.ts.
 // -----------------------------------------------------------------------------
-const PRECOS_KEY = "odontoclean_precos_override";
+const PRECOS_KEY = "metodofluxo_precos_override";
 
-export function getPrecosOverride(): Record<string, number> {
-  return readLS<Record<string, number>>(PRECOS_KEY, {});
+export interface FaixaPreco {
+  min: number;
+  max: number;
 }
 
-export function salvarPrecoPlano(planoId: string, novoPreco: number) {
+export function getPrecosOverride(): Record<string, FaixaPreco> {
+  return readLS<Record<string, FaixaPreco>>(PRECOS_KEY, {});
+}
+
+export function salvarPrecoServico(servicoId: string, faixa: FaixaPreco) {
   const atual = getPrecosOverride();
-  writeLS(PRECOS_KEY, { ...atual, [planoId]: novoPreco });
+  writeLS(PRECOS_KEY, { ...atual, [servicoId]: faixa });
 }

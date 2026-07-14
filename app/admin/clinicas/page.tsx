@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { excluirClinica, getClinicas } from "@/lib/db";
 import { Clinica } from "@/lib/types";
-import { planos } from "@/lib/content";
+import { servicos } from "@/lib/content";
 
 export default function AdminClinicasPage() {
   const [clinicas, setClinicas] = useState<Clinica[]>([]);
@@ -35,7 +35,7 @@ export default function AdminClinicasPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="font-display text-2xl font-bold text-brand-gray-900">Clínicas cadastradas</h1>
-          <p className="mt-1 text-brand-gray-600">Gerencie todas as clínicas atendidas pela OdontoClean.</p>
+          <p className="mt-1 text-brand-gray-600">Gerencie todas as clínicas atendidas pela Método Fluxo.</p>
         </div>
         <input
           className="input-field max-w-xs"
@@ -52,7 +52,7 @@ export default function AdminClinicasPage() {
               <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Clínica</th>
               <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Responsável</th>
               <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Contato</th>
-              <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Plano</th>
+              <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Serviço</th>
               <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Ações</th>
             </tr>
           </thead>
@@ -69,12 +69,12 @@ export default function AdminClinicasPage() {
                   <p className="text-xs text-brand-gray-500">{c.telefone}</p>
                 </td>
                 <td className="px-4 py-3">
-                  {c.planoAtual ? (
+                  {c.servicoAtual ? (
                     <span className="rounded-full bg-brand-lightBlue px-3 py-1 text-xs font-semibold text-brand-darkBlue">
-                      {planos.find((p) => p.id === c.planoAtual)?.nome}
+                      {servicos.find((s) => s.id === c.servicoAtual)?.nome}
                     </span>
                   ) : (
-                    <span className="text-xs text-brand-gray-400">Sem plano</span>
+                    <span className="text-xs text-brand-gray-400">Sem serviço</span>
                   )}
                 </td>
                 <td className="px-4 py-3">

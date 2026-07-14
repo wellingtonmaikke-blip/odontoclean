@@ -59,7 +59,7 @@ const menuClinica: MenuItem[] = [
   { href: "/painel", label: "Dashboard", icon: "home" },
   { href: "/painel/agendar", label: "Agendar serviço", icon: "calendar" },
   { href: "/painel/historico", label: "Histórico", icon: "history" },
-  { href: "/painel/planos", label: "Meus planos", icon: "star" },
+  { href: "/painel/servicos", label: "Meus serviços", icon: "star" },
   { href: "/painel/perfil", label: "Perfil da clínica", icon: "user" },
 ];
 
@@ -67,7 +67,7 @@ const menuAdmin: MenuItem[] = [
   { href: "/admin", label: "Dashboard", icon: "home" },
   { href: "/admin/clinicas", label: "Clínicas", icon: "building" },
   { href: "/admin/agendamentos", label: "Agendamentos", icon: "list" },
-  { href: "/admin/servicos", label: "Planos e preços", icon: "tag" },
+  { href: "/admin/servicos", label: "Serviços e preços", icon: "tag" },
 ];
 
 export default function DashboardShell({
@@ -114,7 +114,7 @@ export default function DashboardShell({
       <aside className="hidden w-64 shrink-0 flex-col border-r border-brand-gray-100 bg-white lg:flex">
         <div className="flex items-center gap-2 border-b border-brand-gray-100 px-6 py-5">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-darkBlue font-display text-lg font-bold text-white">
-            O
+            M
           </span>
           <div>
             <p className="font-display text-base font-bold text-brand-gray-900">{marca.nome}</p>
@@ -154,7 +154,7 @@ export default function DashboardShell({
         {/* Topbar mobile */}
         <div className="flex items-center justify-between border-b border-brand-gray-100 bg-white px-4 py-3 lg:hidden">
           <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-darkBlue font-display text-sm font-bold text-white">O</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-darkBlue font-display text-sm font-bold text-white">M</span>
             <span className="font-display font-bold text-brand-gray-900">{marca.nome}</span>
           </div>
           <button onClick={() => setMenuOpen(!menuOpen)} className="rounded-lg p-2 text-brand-gray-700">

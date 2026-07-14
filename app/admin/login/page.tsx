@@ -30,10 +30,10 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-brand-gray-900 px-4">
       <div className="w-full max-w-md rounded-xl2 bg-white p-8 shadow-premium">
         <div className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-darkBlue font-display text-lg font-bold text-white">O</span>
-          <span className="font-display text-xl font-bold text-brand-gray-900">OdontoClean · Interno</span>
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-darkBlue font-display text-lg font-bold text-white">M</span>
+          <span className="font-display text-xl font-bold text-brand-gray-900">Método Fluxo · Interno</span>
         </div>
-        <p className="mt-2 text-sm text-brand-gray-600">Acesso restrito à equipe OdontoClean.</p>
+        <p className="mt-2 text-sm text-brand-gray-600">Acesso restrito à equipe Método Fluxo.</p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>

@@ -18,7 +18,7 @@ export default function SobrePage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1000&auto=format&fit=crop&q=80"
-            alt="Equipe OdontoClean"
+            alt="Equipe Método Fluxo organizando uma clínica odontológica"
             className="h-72 w-full object-cover"
           />
         </div>

@@ -1,7 +1,8 @@
-# 🦷 OdontoClean — Sistema Web Completo
+# 🦷 Método Fluxo — Sistema Web Completo
 
 Sistema institucional + painel de clínicas + painel administrativo interno para uma
-empresa de limpeza e higienização especializada em clínicas odontológicas.
+consultoria de **eficiência operacional para clínicas odontológicas** (organização,
+implantação de protocolos, treinamento de equipes e mentoria mensal).
 
 **Stack:** Next.js 14 (App Router) + React 18 + TypeScript + Tailwind CSS
 **Persistência:** localStorage (banco simulado) — pronto para ser trocado por
@@ -35,8 +36,6 @@ npm start
 > ⚠️ Nota sobre ambiente: este projeto é **Next.js/React/TypeScript**, não Python.
 > Se você pretende rodar dentro de um ambiente virtual Python (venv/pyenv), ele
 > não é necessário aqui — basta ter o Node.js instalado e seguir os passos acima.
-> Caso precise mesmo de uma versão em Python (ex: Flask/Django), me avise que
-> posso adaptar a arquitetura.
 
 ---
 
@@ -47,7 +46,7 @@ npm start
 - **Senha:** demo123
 
 ### Login do painel interno (`/admin/login`)
-- **E-mail:** admin@odontoclean.com.br
+- **E-mail:** admin@metodofluxo.com.br
 - **Senha:** admin123
 
 Você também pode criar novas clínicas pela página `/cadastro`.
@@ -58,13 +57,30 @@ Você também pode criar novas clínicas pela página `/cadastro`.
 
 ---
 
-## 3. Estrutura de pastas
+## 3. Os 5 serviços (conforme o plano de negócio)
+
+Todos definidos em `lib/content.ts`, no array `servicos`:
+
+1. **Diagnóstico Operacional** (R$ 300–700) — porta de entrada. Visita de 1 hora,
+   avaliação da clínica e relatório com pontuação de 0 a 100.
+2. **Implantação Completa** (R$ 2.500–6.000) — serviço principal. Organização de
+   instrumentais, bandejas, estoque, esterilização, checklists, manual da clínica
+   e treinamento da equipe. Inclui o selo **Clínica Organizada®**.
+3. **Treinamento de ASBs** (R$ 1.500–4.000) — 9 módulos práticos, com certificado.
+4. **Manual e Documentação de Protocolos** (R$ 1.500–3.000) — POPs, manuais e
+   checklists diário/semanal/mensal.
+5. **Mentoria Mensal** (R$ 700–2.000/mês) — serviço recorrente: auditoria,
+   reciclagem, treinamento e acompanhamento mensal.
+
+---
+
+## 4. Estrutura de pastas
 
 ```
 odontoclean/
 ├── app/
 │   ├── page.tsx                 → Home
-│   ├── servicos/page.tsx        → Planos (Bronze, Prata, Ouro)
+│   ├── servicos/page.tsx        → Os 5 serviços do Método Fluxo
 │   ├── diferenciais/page.tsx
 │   ├── missao-visao/page.tsx
 │   ├── sobre/page.tsx
@@ -77,15 +93,15 @@ odontoclean/
 │   │   ├── agendar/page.tsx     → Agendar serviço (calendário)
 │   │   ├── historico/page.tsx   → Histórico de agendamentos
 │   │   ├── perfil/page.tsx      → Dados da clínica
-│   │   └── planos/page.tsx      → Meus planos / trocar de plano
-│   └── admin/                   → Painel INTERNO da OdontoClean
+│   │   └── servicos/page.tsx    → Meus serviços / contratar outro serviço
+│   └── admin/                   → Painel INTERNO do Método Fluxo
 │       ├── login/page.tsx
 │       ├── layout.tsx
 │       ├── page.tsx             → Dashboard geral
 │       ├── clinicas/page.tsx    → Gerenciar todas as clínicas
 │       ├── agendamentos/page.tsx→ Gerenciar todos os agendamentos
-│       └── servicos/page.tsx    → Editar preços dos planos
-├── components/                  → Navbar, Footer, PlanCard, Calendário, etc.
+│       └── servicos/page.tsx    → Editar faixas de preço dos serviços
+├── components/                  → Navbar, Footer, ServicoCard, Calendário, etc.
 ├── lib/
 │   ├── content.ts                ⭐ TODOS OS TEXTOS DO SITE (edite aqui)
 │   ├── types.ts                  → Tipos TypeScript compartilhados
@@ -96,27 +112,28 @@ odontoclean/
 
 ---
 
-## 4. Como editar facilmente
+## 5. Como editar facilmente
 
-### ✏️ Textos do site (home, planos, missão, sobre, contato...)
+### ✏️ Textos do site (home, serviços, missão, sobre, contato...)
 Tudo está centralizado em **`lib/content.ts`**. Edite os objetos exportados,
 por exemplo:
 
 ```ts
 export const hero = {
-  titulo: "Sua clínica impecavelmente limpa. Seus pacientes, mais seguros.",
+  titulo: "Nós organizamos a operação da sua clínica...",
   subtitulo: "...",
   ...
 };
 ```
 
-### 💰 Planos e preços
-Também em `lib/content.ts`, no array `planos`. Cada plano tem `nome`, `tagline`,
-`preco`, `descricao`, `beneficios` (lista) e `diferenciais` (lista). Basta editar
-o array — as páginas Home, Serviços, Agendar e Meus Planos usam essa mesma fonte.
+### 💰 Serviços e preços
+Também em `lib/content.ts`, no array `servicos`. Cada serviço tem `nome`, `tagline`,
+`tipo` (`avulso` ou `recorrente`), `precoMin`, `precoMax`, `precoLabel`, `descricao`,
+`inclui` (lista), `entrega` e `diferenciais` (lista). Basta editar o array — as
+páginas Home, Serviços, Agendar e Meus Serviços usam essa mesma fonte.
 
-Preços também podem ser ajustados **em tempo real, sem mexer no código**, pelo
-painel interno em `/admin/servicos` (login administrativo necessário).
+Faixas de preço também podem ser ajustadas **em tempo real, sem mexer no código**,
+pelo painel interno em `/admin/servicos` (login administrativo necessário).
 
 ### 🎨 Cores e fontes
 Em **`tailwind.config.ts`**, dentro de `theme.extend.colors.brand`:
@@ -138,28 +155,30 @@ Duas formas:
 2. Programaticamente, chamando `criarClinica(...)` de `lib/db.ts` (útil para
    seeds/scripts).
 
-### 🗓️ Horários e frequências de agendamento
-Em `app/painel/agendar/page.tsx`, os arrays `horariosDisponiveis` e
-`frequencias` controlam as opções exibidas no formulário.
+### 🗓️ Horários de agendamento
+Em `app/painel/agendar/page.tsx`, o array `horariosDisponiveis` controla as
+opções exibidas no formulário. A frequência (única ou mensal) é definida
+automaticamente conforme o `tipo` do serviço escolhido.
 
 ---
 
-## 5. Funcionalidades incluídas
+## 6. Funcionalidades incluídas
 
-- ✅ Site institucional completo (Home, Serviços/Planos, Diferenciais, Missão e
+- ✅ Site institucional completo (Home, Serviços, Diferenciais, Missão e
   Visão, Sobre, Contato)
 - ✅ Cadastro de clínicas com validação de formulário (CNPJ, e-mail, senha etc.)
 - ✅ Login/logout simulado com "JWT" (assinatura + expiração em 8h)
 - ✅ Painel da clínica: dashboard, agendamento com calendário, histórico com
-  filtro por status, edição de perfil, troca de plano
+  filtro por status, edição de perfil, contratação de serviços
 - ✅ Painel interno (admin): dashboard geral, gestão de clínicas, gestão de
-  agendamentos (mudar status), edição de preços dos planos
+  agendamentos (mudar status), edição de faixas de preço dos serviços
 - ✅ Design responsivo, com paleta branco / azul-claro / azul-escuro / verde-menta
-- ✅ Todos os textos comerciais em português, centralizados e editáveis
+- ✅ Todos os textos comerciais em português, centralizados e editáveis,
+  fiéis ao plano de negócio do Método Fluxo
 
 ---
 
-## 6. Evoluindo para um backend real
+## 7. Evoluindo para um backend real
 
 Este projeto usa `localStorage` para fins de demonstração e prototipagem rápida.
 Para produção, recomenda-se:
@@ -174,25 +193,26 @@ Para produção, recomenda-se:
 
 ---
 
-## 7. Deploy na Vercel
+## 8. Deploy na Vercel
 
 1. Suba o projeto para um repositório no GitHub/GitLab/Bitbucket.
 2. Acesse [vercel.com](https://vercel.com) → **Add New Project** → importe o
    repositório.
 3. A Vercel detecta automaticamente que é um projeto Next.js — não é necessário
    configurar nada manualmente (build command `next build`, output `.next`).
-4. Clique em **Deploy**. Em poucos minutos você terá uma URL pública (ex:
-   `odontoclean.vercel.app`).
+4. Clique em **Deploy**. Em poucos minutos você terá uma URL pública.
 5. Se/quando migrar para Supabase, adicione as variáveis de ambiente
    (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`) em
    **Project Settings → Environment Variables** antes do deploy.
 
 ---
 
-## 8. Próximos passos sugeridos
+## 9. Próximos passos sugeridos
 
 - Trocar o banco simulado por Supabase/PostgreSQL para persistência real
   entre dispositivos.
 - Adicionar envio de e-mail/WhatsApp automático ao confirmar agendamentos.
-- Gerar o "laudo de higienização" (plano Ouro) como PDF automático.
+- Gerar o relatório do Diagnóstico Operacional (pontuação 0–100) como PDF.
+- Emitir o certificado/selo Clínica Organizada® automaticamente após a
+  Implantação Completa.
 - Adicionar upload de logotipo/fotos por clínica.

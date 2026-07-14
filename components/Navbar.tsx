@@ -27,7 +27,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-darkBlue font-display text-lg font-bold text-white">
-            O
+            M
           </span>
           <span className="font-display text-xl font-bold text-brand-gray-900">
             {marca.nome}
@@ -54,7 +54,7 @@ export default function Navbar() {
             {logado ? "Meu painel" : "Login clínicas"}
           </Link>
           <Link href="/servicos" className="btn-primary text-sm">
-            Contrate agora
+            Solicitar diagnóstico
           </Link>
         </div>
 
@@ -91,7 +91,7 @@ export default function Navbar() {
               {logado ? "Meu painel" : "Login clínicas"}
             </Link>
             <Link href="/servicos" onClick={() => setOpen(false)} className="btn-primary text-sm w-full">
-              Contrate agora
+              Solicitar diagnóstico
             </Link>
           </div>
         </div>

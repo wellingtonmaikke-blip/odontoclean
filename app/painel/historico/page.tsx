@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getSessao } from "@/lib/auth";
 import { atualizarAgendamento, getAgendamentosPorClinica } from "@/lib/db";
 import { Agendamento, StatusAgendamento } from "@/lib/types";
-import { planos } from "@/lib/content";
+import { servicos } from "@/lib/content";
 
 const statusEstilo: Record<StatusAgendamento, string> = {
   pendente: "bg-yellow-100 text-yellow-700",
@@ -14,10 +14,8 @@ const statusEstilo: Record<StatusAgendamento, string> = {
 };
 
 const frequenciaLabel: Record<string, string> = {
-  unica: "Única",
-  semanal: "Semanal",
-  quinzenal: "Quinzenal",
-  mensal: "Mensal",
+  unica: "Atendimento único",
+  mensal: "Recorrência mensal",
 };
 
 export default function HistoricoPage() {
@@ -68,10 +66,10 @@ export default function HistoricoPage() {
           <div key={a.id} className="card flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="font-display font-bold text-brand-gray-900">
-                Plano {planos.find((p) => p.id === a.plano)?.nome}
+                {servicos.find((s) => s.id === a.servico)?.nome}
               </p>
               <p className="text-sm text-brand-gray-600">
-                {new Date(a.data + "T00:00:00").toLocaleDateString("pt-BR")} às {a.horario} · Frequência {frequenciaLabel[a.frequencia]}
+                {new Date(a.data + "T00:00:00").toLocaleDateString("pt-BR")} às {a.horario} · {frequenciaLabel[a.frequencia]}
               </p>
               {a.observacoes && <p className="mt-1 text-xs text-brand-gray-500">Obs: {a.observacoes}</p>}
             </div>

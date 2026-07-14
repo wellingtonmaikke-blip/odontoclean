@@ -12,8 +12,8 @@ export default function DiferenciaisPage() {
           <span className="pill">O que nos diferencia</span>
           <h1 className="mt-4 section-title">Detalhes que fazem toda a diferença</h1>
           <p className="section-subtitle mx-auto text-center">
-            Nossa metodologia foi desenvolvida especificamente para o ambiente odontológico —
-            com atenção a cada detalhe que impacta a segurança de pacientes e profissionais.
+            Nosso método foi desenvolvido especificamente para a operação de clínicas odontológicas —
+            com atenção a cada detalhe que impacta a produtividade da equipe e a segurança do paciente.
           </p>
         </div>
       </section>

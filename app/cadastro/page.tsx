@@ -7,8 +7,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { criarClinica, getClinicaPorEmail, seedDatabase } from "@/lib/db";
 import { loginClinica } from "@/lib/auth";
-import { planos } from "@/lib/content";
-import { PlanoId } from "@/lib/types";
+import { servicos } from "@/lib/content";
+import { ServicoId } from "@/lib/types";
 
 type FormState = {
   nomeClinica: string;
@@ -19,7 +19,7 @@ type FormState = {
   email: string;
   senha: string;
   confirmarSenha: string;
-  planoAtual: PlanoId | "";
+  servicoAtual: ServicoId | "";
 };
 
 const estadoInicial: FormState = {
@@ -31,7 +31,7 @@ const estadoInicial: FormState = {
   email: "",
   senha: "",
   confirmarSenha: "",
-  planoAtual: "",
+  servicoAtual: "",
 };
 
 function validarCNPJFormato(cnpj: string) {
@@ -87,7 +87,7 @@ export default function CadastroPage() {
       responsavel: form.responsavel,
       email: form.email,
       senha: form.senha,
-      planoAtual: form.planoAtual || null,
+      servicoAtual: form.servicoAtual || null,
     });
 
     loginClinica(form.email, form.senha);
@@ -157,11 +157,11 @@ export default function CadastroPage() {
             </div>
 
             <div>
-              <label className="label-field">Plano de interesse (opcional)</label>
-              <select className="input-field" value={form.planoAtual} onChange={(e) => update("planoAtual", e.target.value as PlanoId | "")}>
+              <label className="label-field">Serviço de interesse (opcional)</label>
+              <select className="input-field" value={form.servicoAtual} onChange={(e) => update("servicoAtual", e.target.value as ServicoId | "")}>
                 <option value="">Selecionar depois</option>
-                {planos.map((p) => (
-                  <option key={p.id} value={p.id}>{p.nome} — {p.tagline}</option>
+                {servicos.map((s) => (
+                  <option key={s.id} value={s.id}>{s.nome} — {s.tagline}</option>
                 ))}
               </select>
             </div>

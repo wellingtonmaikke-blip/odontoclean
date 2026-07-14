@@ -1,21 +1,28 @@
-// Tipos centrais do sistema OdontoClean.
-// Alterar aqui reflete em todo o app (formularios, banco simulado, etc).
+// Tipos centrais do sistema Método Fluxo.
+// Alterar aqui reflete em todo o app (formulários, banco simulado, etc).
 
-export type PlanoId = "bronze" | "prata" | "ouro";
+export type ServicoId = "diagnostico" | "implantacao" | "treinamento" | "manual" | "mentoria";
 
-export type Frequencia = "unica" | "semanal" | "quinzenal" | "mensal";
+export type TipoServico = "avulso" | "recorrente";
+
+export type Frequencia = "unica" | "mensal";
 
 export type StatusAgendamento = "pendente" | "confirmado" | "concluido" | "cancelado";
 
-export interface Plano {
-  id: PlanoId;
+export interface Servico {
+  id: ServicoId;
   nome: string;
   tagline: string;
-  preco: number; // preço sugerido em R$ (mensal ou por visita, editável)
-  precoLabel: string; // ex: "/ visita" ou "/ mês"
+  tipo: TipoServico; // "avulso" (atendimento único) ou "recorrente" (mensal)
+  precoMin: number; // faixa de preço sugerida em R$
+  precoMax: number;
+  precoLabel: string; // ex: "/ mês" para recorrente, "" para avulso
+  duracao: string; // ex: "Visita de 1 hora", "1 a 2 dias na clínica"
   descricao: string;
-  beneficios: string[];
+  inclui: string[]; // o que está incluso no serviço
+  entrega: string; // o que a clínica recebe ao final
   diferenciais: string[];
+  badge?: string; // texto de destaque no card, ex: "Porta de entrada"
   destaque?: boolean;
   cor: string; // classe tailwind de cor de destaque
 }
@@ -29,14 +36,14 @@ export interface Clinica {
   responsavel: string;
   email: string;
   senhaHash: string;
-  planoAtual: PlanoId | null;
+  servicoAtual: ServicoId | null;
   criadoEm: string;
 }
 
 export interface Agendamento {
   id: string;
   clinicaId: string;
-  plano: PlanoId;
+  servico: ServicoId;
   data: string; // ISO yyyy-mm-dd
   horario: string; // HH:mm
   frequencia: Frequencia;

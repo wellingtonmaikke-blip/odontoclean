@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { atualizarAgendamento, getAgendamentos, getClinicaPorId } from "@/lib/db";
 import { Agendamento, StatusAgendamento } from "@/lib/types";
-import { planos } from "@/lib/content";
+import { servicos } from "@/lib/content";
 
 const statusOptions: StatusAgendamento[] = ["pendente", "confirmado", "concluido", "cancelado"];
 
@@ -42,7 +42,7 @@ export default function AdminAgendamentosPage() {
           <thead className="bg-brand-gray-50">
             <tr>
               <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Clínica</th>
-              <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Plano</th>
+              <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Serviço</th>
               <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Data / Horário</th>
               <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Frequência</th>
               <th className="px-4 py-3 text-left font-semibold text-brand-gray-700">Status</th>
@@ -54,11 +54,11 @@ export default function AdminAgendamentosPage() {
               return (
                 <tr key={a.id}>
                   <td className="px-4 py-3 font-medium text-brand-gray-900">{clinica?.nomeClinica ?? "—"}</td>
-                  <td className="px-4 py-3 text-brand-gray-700">{planos.find((p) => p.id === a.plano)?.nome}</td>
+                  <td className="px-4 py-3 text-brand-gray-700">{servicos.find((s) => s.id === a.servico)?.nome}</td>
                   <td className="px-4 py-3 text-brand-gray-700">
                     {new Date(a.data + "T00:00:00").toLocaleDateString("pt-BR")} às {a.horario}
                   </td>
-                  <td className="px-4 py-3 capitalize text-brand-gray-700">{a.frequencia}</td>
+                  <td className="px-4 py-3 capitalize text-brand-gray-700">{a.frequencia === "mensal" ? "Mensal (recorrente)" : "Atendimento único"}</td>
                   <td className="px-4 py-3">
                     <select
                       value={a.status}

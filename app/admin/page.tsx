@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getAgendamentos, getClinicas } from "@/lib/db";
 import { Agendamento, Clinica } from "@/lib/types";
-import { planos } from "@/lib/content";
+import { servicos } from "@/lib/content";
 
 export default function AdminDashboard() {
   const [clinicas, setClinicas] = useState<Clinica[]>([]);
@@ -19,15 +19,15 @@ export default function AdminDashboard() {
   const agendamentosHoje = agendamentos.filter((a) => a.data === hoje);
   const pendentes = agendamentos.filter((a) => a.status === "pendente");
 
-  const contagemPorPlano = planos.map((p) => ({
-    plano: p.nome,
-    total: clinicas.filter((c) => c.planoAtual === p.id).length,
+  const contagemPorServico = servicos.map((s) => ({
+    servico: s.nome,
+    total: clinicas.filter((c) => c.servicoAtual === s.id).length,
   }));
 
   return (
     <div>
       <h1 className="font-display text-2xl font-bold text-brand-gray-900">Painel administrativo</h1>
-      <p className="mt-1 text-brand-gray-600">Visão geral de todas as clínicas e agendamentos da OdontoClean.</p>
+      <p className="mt-1 text-brand-gray-600">Visão geral de todas as clínicas e agendamentos da Método Fluxo.</p>
 
       <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <div className="card">
@@ -50,11 +50,11 @@ export default function AdminDashboard() {
 
       <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div className="card">
-          <h2 className="font-display font-bold text-brand-gray-900">Clínicas por plano</h2>
+          <h2 className="font-display font-bold text-brand-gray-900">Clínicas por serviço contratado</h2>
           <div className="mt-4 space-y-3">
-            {contagemPorPlano.map((c) => (
-              <div key={c.plano} className="flex items-center justify-between">
-                <span className="text-sm text-brand-gray-700">{c.plano}</span>
+            {contagemPorServico.map((c) => (
+              <div key={c.servico} className="flex items-center justify-between">
+                <span className="text-sm text-brand-gray-700">{c.servico}</span>
                 <span className="rounded-full bg-brand-lightBlue px-3 py-1 text-xs font-semibold text-brand-darkBlue">
                   {c.total} clínica(s)
                 </span>

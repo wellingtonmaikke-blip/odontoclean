@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import PlanCard from "@/components/PlanCard";
+import ServicoCard from "@/components/ServicoCard";
 import { iconMap } from "@/components/Icons";
-import { hero, homeStats, homeChamada, planos, diferenciais } from "@/lib/content";
+import { hero, homeStats, homeChamada, servicos, diferenciais } from "@/lib/content";
 
 export default function HomePage() {
+  const destaques = servicos.filter((s) => s.id === "diagnostico" || s.id === "implantacao" || s.id === "mentoria");
+
   return (
     <>
       <Navbar />
@@ -50,8 +52,8 @@ export default function HomePage() {
               />
             </div>
             <div className="absolute -bottom-6 -left-6 hidden rounded-xl2 bg-white p-4 shadow-premium ring-1 ring-black/5 sm:block">
-              <p className="text-xs font-semibold text-brand-gray-600">Higienização certificada</p>
-              <p className="font-display text-lg font-bold text-brand-mintDark">100% hospitalar</p>
+              <p className="text-xs font-semibold text-brand-gray-600">Selo de qualidade</p>
+              <p className="font-display text-lg font-bold text-brand-mintDark">Clínica Organizada®</p>
             </div>
           </div>
         </div>
@@ -63,23 +65,27 @@ export default function HomePage() {
           <h2 className="font-display text-3xl font-bold text-white sm:text-4xl">{homeChamada.titulo}</h2>
           <p className="mt-4 text-brand-lightBlue">{homeChamada.texto}</p>
           <Link href="/servicos" className="btn-mint mt-8 inline-flex">
-            Ver planos e preços
+            Ver serviços e preços
           </Link>
         </div>
       </section>
 
-      {/* PLANOS RESUMO */}
+      {/* SERVIÇOS RESUMO */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="section-title">Planos feitos para cada nível de exigência</h2>
+          <h2 className="section-title">Do diagnóstico à mentoria contínua</h2>
           <p className="section-subtitle mx-auto text-center">
-            Do essencial ao completo: escolha a solução ideal para a rotina da sua clínica.
+            Comece pelo Diagnóstico Operacional, avance para a Implantação Completa e mantenha os
+            resultados com a Mentoria Mensal. Temos também Treinamento de ASBs e Manual de Protocolos avulsos.
           </p>
         </div>
         <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {planos.map((p) => (
-            <PlanCard key={p.id} plano={p} ctaHref="/cadastro" />
+          {destaques.map((s) => (
+            <ServicoCard key={s.id} servico={s} ctaHref="/cadastro" />
           ))}
+        </div>
+        <div className="mt-8 text-center">
+          <Link href="/servicos" className="btn-secondary inline-flex">Ver todos os serviços</Link>
         </div>
       </section>
 
@@ -87,9 +93,9 @@ export default function HomePage() {
       <section className="bg-brand-gray-50 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="section-title">Por que confiar na OdontoClean</h2>
+            <h2 className="section-title">Por que confiar no Método Fluxo</h2>
             <p className="section-subtitle mx-auto text-center">
-              Muito mais do que limpeza: um protocolo completo de biossegurança para sua clínica.
+              Você não compra organização. Você compra produtividade, segurança e uma operação previsível.
             </p>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -111,9 +117,9 @@ export default function HomePage() {
 
       {/* CTA FINAL */}
       <section className="mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 lg:px-8">
-        <h2 className="section-title">Pronto para elevar o padrão de higiene da sua clínica?</h2>
+        <h2 className="section-title">Pronto para organizar a operação da sua clínica?</h2>
         <p className="section-subtitle mx-auto text-center">
-          Fale com a nossa equipe e receba uma proposta personalizada em poucas horas.
+          Fale com a nossa equipe e solicite o Diagnóstico Operacional em poucas horas.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Link href="/cadastro" className="btn-primary">Cadastrar minha clínica</Link>
